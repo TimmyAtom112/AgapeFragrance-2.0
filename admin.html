@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgapeFragrance | Admin Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: #0b0b0b;
+  color: #fff;
+  font-family: Poppins, sans-serif;
+}
+
+header {
+  padding: 20px;
+  border-bottom: 1px solid #423719;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.brand {
+  color: #d4af37;
+  letter-spacing: 2px;
+  font-size: 13px;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 7px;
+  padding: 11px 16px;
+  font-family: inherit;
+  font-weight: 600;
+}
+
+#logout {
+  background: transparent;
+  color: #d4af37;
+  border: 1px solid #806b2c;
+}
+
+main {
+  width: 100%;
+  max-width: 1000px;
+  margin: auto;
+  padding: 25px 18px;
+}
+
+h1, h2 {
+  font-family: 'Playfair Display', serif;
+}
+
+h1 { color: #d4af37; }
+
+.subtitle {
+  color: #aaa;
+  font-size: 13px;
+}
+
+.panel {
+  background: #171717;
+  border: 1px solid #423719;
+  border-radius: 12px;
+  padding: 22px;
+  margin: 25px 0;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  margin: 15px 0 7px;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #444;
+  border-radius: 7px;
+  background: #0c0c0c;
+  color: white;
+  font: inherit;
+  font-size: 14px;
+}
+
+textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: 1px solid #d4af37;
+}
+
+.primary {
+  background: #d4af37;
+  color: #111;
+  width: 100%;
+  margin-top: 20px;
+}
+
+button:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+
+#status {
+  font-size: 13px;
+  color: #e5c65a;
+  margin-top: 15px;
+}
+
+#preview {
+  display: none;
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-top: 12px;
+}
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.product {
+  background: #111;
+  border: 1px solid #393123;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.product img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.product-info {
+  padding: 14px;
+}
+
+.product-info h3 {
+  margin: 0 0 8px;
+  font-size: 15px;
+}
+
+.product-info p {
+  color: #aaa;
+  font-size: 12px;
+  margin: 5px 0;
+}
+
+.price {
+  color: #d4af37 !important;
+  font-weight: 600;
+}
+
+#loginSection {
+  max-width: 420px;
+  margin: 70px auto;
+}
+
+#dashboard { display: none; }
+
+#loginMessage {
+  color: #e5c65a;
+  font-size: 12px;
+  text-align: center;
+}
+
+
+/* ORDER MANAGEMENT */
+
+.order-card {
+  background: #111;
+  border: 1px solid #493b20;
+  border-radius: 10px;
+  padding: 16px;
+  margin-top: 15px;
+}
+
+.order-card h3 {
+  color: #d4af37;
+  margin-top: 0;
+  font-size: 16px;
+}
+
+.order-card p {
+  font-size: 13px;
+  color: #ccc;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.order-items {
+  border-top: 1px solid #423719;
+  border-bottom: 1px solid #423719;
+  padding: 10px 0;
+  margin: 12px 0;
+}
+
+.order-status {
+  margin-top: 10px;
+}
+
+.order-status select {
+  border-color: #806b2c;
+}
+
+.order-total {
+  color: #d4af37 !important;
+  font-weight: 600;
+}
+
+/* CUSTOMER MESSAGE CARDS */
+.message-card {
+  background: #111;
+  border: 1px solid #493b20;
+  border-radius: 10px;
+  padding: 16px;
+  margin-top: 15px;
+}
+
+.message-card h3 {
+  color: #d4af37;
+  margin-top: 0;
+  font-size: 16px;
+}
+
+.message-card p {
+  font-size: 13px;
+  color: #ccc;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+
+/* NEW ORDER NOTIFICATIONS */
+.notification-card {
+  background: #111;
+  border: 1px solid #493b20;
+  border-left: 4px solid #d4af37;
+  border-radius: 9px;
+  padding: 14px;
+  margin-top: 12px;
+}
+
+.notification-card h3 {
+  color: #d4af37;
+  font-size: 15px;
+  margin: 0 0 8px;
+}
+
+.notification-card p {
+  color: #ccc;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.notification-card button {
+  background: #d4af37;
+  color: #111;
+  margin-top: 8px;
+}
+
+
+/* DASHBOARD STATISTICS */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.stat-card {
+  background: #111;
+  border: 1px solid #493b20;
+  border-radius: 10px;
+  padding: 18px;
+}
+
+.stat-card p {
+  color: #aaa;
+  font-size: 13px;
+  margin: 0 0 10px;
+}
+
+.stat-card h3 {
+  color: #d4af37;
+  font-size: 25px;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.revenue-card {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    gap: 10px;
+  }
+
+  .stat-card {
+    padding: 14px;
+  }
+
+  .stat-card h3 {
+    font-size: 21px;
+  }
+}
+
+
+.message-content {
+  background: #1b1b1b;
+  padding: 12px;
+  border-radius: 7px;
+  margin: 12px 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.message-status {
+  margin-top: 10px;
+}
+
+.message-update-message {
+  color: #d4af37;
+  font-size: 12px;
+}
+
+@media(max-width: 500px) {
+  header { padding: 15px; }
+  .brand { font-size: 11px; }
+  .panel { padding: 16px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="brand">AGAPEFRAGRANCE</div>
+  <button id="logout" style="display:none">Sign Out</button>
+</header>
+
+<main>
+
+<section id="loginSection" class="panel">
+  <h1>Admin Login</h1>
+  <p class="subtitle">Sign in to manage your store.</p>
+
+  <form id="loginForm">
+    <label>Email Address</label>
+    <input id="email" type="email" required>
+
+    <label>Password</label>
+    <input id="password" type="password" required>
+
+    <button class="primary" id="loginButton">
+      Sign In
+    </button>
+  </form>
+
+  <p id="loginMessage"></p>
+</section>
+
+<section id="dashboard">
+
+  <h1>Welcome, Admin</h1>
+  <p class="subtitle" id="adminEmail"></p>
+
+  <section class="panel">
+    <h2>Add New Product</h2>
+
+    <form id="productForm">
+
+      <label>Product Name</label>
+      <input id="name" type="text" required
+             placeholder="e.g. Fakhar Lattafa">
+
+      <label>Description</label>
+      <textarea id="description"
+                placeholder="Describe the perfume..."></textarea>
+
+      <label>Price (₦)</label>
+      <input id="price" type="number"
+             min="0.01" step="0.01" required>
+
+      <label>Category</label>
+      <select id="category" required>
+        <option value="">Select category</option>
+        <option value="Men">Men</option>
+        <option value="Women">Women</option>
+        <option value="Unisex">Unisex</option>
+      </select>
+
+      <label>Available Stock</label>
+      <input id="stock" type="number"
+             min="0" step="1" value="0" required>
+
+      <label>Product Image</label>
+      <input id="image" type="file"
+             accept="image/*" required>
+
+      <img id="preview" alt="Product preview">
+
+      <button class="primary" id="saveButton" type="submit">
+        Upload and Save Product
+      </button>
+
+      <p id="status" role="status"></p>
+
+    </form>
+  </section>
+
+  <section class="panel" id="editSection" style="display:none;">
+  <h2>Edit Product</h2>
+
+  <form id="editForm">
+    <label>Product Name</label>
+    <input id="editName" type="text" required>
+
+    <label>Description</label>
+    <textarea id="editDescription"></textarea>
+
+    <label>Price (₦)</label>
+    <input id="editPrice" type="number" min="0.01" step="0.01" required>
+
+    <label>Category</label>
+    <select id="editCategory" required>
+      <option value="Men">Men</option>
+      <option value="Women">Women</option>
+      <option value="Unisex">Unisex</option>
+    </select>
+
+    <label>Available Stock</label>
+    <input id="editStock" type="number" min="0" step="1" required>
+
+    <button class="primary" type="submit" id="updateButton">
+      Update Product
+    </button>
+
+    <button type="button" id="cancelEdit"
+      style="width:100%; margin-top:10px; background:#333; color:white;">
+      Cancel
+    </button>
+
+    <p id="editStatus"></p>
+  </form>
+  </section>
+  
+<!-- DASHBOARD STATISTICS -->
+<section class="panel" id="statisticsSection">
+  <h2>Dashboard Overview</h2>
+  <p class="subtitle">A quick overview of your store's performance.</p>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <p>Total Orders</p>
+      <h3 id="stat-total-orders">0</h3>
+    </div>
+
+    <div class="stat-card">
+      <p>Pending Orders</p>
+      <h3 id="stat-pending-orders">0</h3>
+    </div>
+
+    <div class="stat-card">
+      <p>Delivered Orders</p>
+      <h3 id="stat-delivered-orders">0</h3>
+    </div>
+
+    <div class="stat-card">
+      <p>Total Products</p>
+      <h3 id="stat-total-products">0</h3>
+    </div>
+
+    <div class="stat-card revenue-card">
+      <p>Delivered Order Value</p>
+      <h3 id="stat-revenue">₦0</h3>
+    </div>
+  </div>
+
+  <button
+    type="button"
+    id="refreshStats"
+    style="background:#d4af37;color:#111;margin-top:15px;"
+  >
+    Refresh Statistics
+  </button>
+</section>
+
+
+    <!-- NEW ORDER NOTIFICATIONS -->
+    <section class="panel" id="notificationSection">
+  <h2>
+    Order Notifications
+    <span id="new-order-count"
+      style="background:#8b2525;color:white;padding:3px 9px;border-radius:20px;font-size:13px;">
+      0
+    </span>
+  </h2>
+
+  <p class="subtitle">
+    Notifications for newly placed customer orders.
+  </p>
+
+  <div id="orderNotifications">
+    <p class="subtitle">No new order notifications.</p>
+  </div>
+</section>
+
+
+ <!-- CUSTOMER MESSAGES -->
+<section class="panel" id="messagesSection">
+  <h2>Customer Messages</h2>
+  <p class="subtitle">
+    View and manage enquiries sent through your contact page.
+  </p>
+
+  <button
+    type="button"
+    id="refreshMessages"
+    style="background:#d4af37; color:#111; margin:15px 0;"
+  >
+    Refresh Messages
+  </button>
+
+  <div id="messageList">
+    Loading customer messages...
+  </div>
+</section>
+
+<!-- ORDER MANAGEMENT -->
+<section class="panel" id="ordersSection">
+
+  <h2>Customer Orders</h2>
+  <p class="subtitle">
+    View customer purchases and manage order status.
+  </p>
+
+  <button
+    type="button"
+    id="refreshOrders"
+    style="background:#d4af37; color:#111; margin:15px 0;">
+    Refresh Orders
+  </button>
+
+  <div id="orderList">
+    Loading customer orders...
+  </div>
+
+</section>
+
+  <section class="panel">
+    <h2>My Products</h2>
+    <p class="subtitle">Products currently saved in your database.</p>
+    <div id="productList" class="products">
+      Loading products...
+    </div>
+  </section>
+
+</section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./supabase-config.js"></script>
+
+<script>
+const client = window.agapeSupabase;
+
+const loginSection = document.getElementById("loginSection");
+const dashboard = document.getElementById("dashboard");
+const logout = document.getElementById("logout");
+
+async function verifyAdmin(user) {
+
+  const { data, error } = await client.rpc("is_admin");
+
+  if (error) throw error;
+
+  if (data !== true) {
+    await client.auth.signOut();
+    throw new Error("You are not authorised as an administrator.");
+  }
+
+  document.getElementById("adminEmail").textContent =
+    "Signed in as " + user.email;
+
+  loginSection.style.display = "none";
+  dashboard.style.display = "block";
+  logout.style.display = "block";
+
+  await loadProducts();
+  await loadOrders();
+  await loadMessages();
+  await loadStatistics();
+  
+  subscribeToNewOrders();
+}
+
+document.getElementById("loginForm")
+.addEventListener("submit", async function(e) {
+
+  e.preventDefault();
+
+  const button = document.getElementById("loginButton");
+  const message = document.getElementById("loginMessage");
+
+  button.disabled = true;
+  message.textContent = "Signing in...";
+
+  try {
+
+    const { data, error } = await client.auth.signInWithPassword({
+      email: document.getElementById("email").value.trim(),
+      password: document.getElementById("password").value
+    });
+
+    if (error) throw error;
+
+    await verifyAdmin(data.user);
+
+  } catch (error) {
+    message.textContent = error.message;
+  }
+
+  button.disabled = false;
+});
+
+logout.addEventListener("click", async function() {
+
+  await client.auth.signOut();
+
+  dashboard.style.display = "none";
+  loginSection.style.display = "block";
+  logout.style.display = "none";
+
+  document.getElementById("loginForm").reset();
+});
+
+// Image preview
+document.getElementById("image")
+.addEventListener("change", function() {
+
+  const file = this.files[0];
+  const preview = document.getElementById("preview");
+
+  if (!file) {
+    preview.style.display = "none";
+    return;
+  }
+
+  preview.src = URL.createObjectURL(file);
+  preview.style.display = "block";
+});
+
+// Save product
+document.getElementById("productForm")
+.addEventListener("submit", async function(e) {
+
+  e.preventDefault();
+
+  const button = document.getElementById("saveButton");
+  const status = document.getElementById("status");
+
+  button.disabled = true;
+  status.textContent = "Uploading product image...";
+
+  let uploadedPath = null;
+
+  try {
+
+    const file = document.getElementById("image").files[0];
+
+    if (!file) throw new Error("Please select a product image.");
+
+    if (!file.type.startsWith("image/")) {
+      throw new Error("Please select a valid image file.");
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      throw new Error("Image must not exceed 5MB.");
+    }
+
+    const extension = file.name.split(".").pop().toLowerCase();
+    const path = "products/" + Date.now() + "-" +
+      Math.random().toString(36).slice(2) + "." + extension;
+
+    const { error: uploadError } = await client.storage
+      .from("Product-images")
+      .upload(path, file, {
+        contentType: file.type,
+        upsert: false
+      });
+
+    if (uploadError) throw uploadError;
+
+    uploadedPath = path;
+
+    const { data: imageData } = client.storage
+      .from("Product-images")
+      .getPublicUrl(path);
+
+    status.textContent = "Saving product details...";
+
+    const product = {
+      name: document.getElementById("name").value.trim(),
+      description: document.getElementById("description").value.trim(),
+      price: Number(document.getElementById("price").value),
+      category: document.getElementById("category").value,
+      stock: Number(document.getElementById("stock").value),
+      image_url: imageData.publicUrl,
+      is_active: true
+    };
+
+    if (!product.name || product.price <= 0 ||
+        !Number.isInteger(product.stock) || product.stock < 0) {
+      throw new Error("Please check the product details.");
+    }
+
+    const { error: insertError } = await client
+      .from("products")
+      .insert([product]);
+
+    if (insertError) throw insertError;
+
+    status.textContent = "Product added successfully!";
+
+    document.getElementById("productForm").reset();
+    document.getElementById("preview").style.display = "none";
+
+    await loadProducts();
+
+  } catch (error) {
+
+    if (uploadedPath) {
+      await client.storage.from("Product-images").remove([uploadedPath]);
+    }
+
+    status.textContent = "Error: " + error.message;
+
+  } finally {
+    button.disabled = false;
+  }
+});
+
+// Display saved products
+async function loadProducts() {
+
+  const list = document.getElementById("productList");
+
+  list.textContent = "Loading products...";
+
+  const { data, error } = await client
+    .from("products")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    list.textContent = "Could not load products: " + error.message;
+    return;
+  }
+
+  if (!data.length) {
+    list.textContent = "No products added yet.";
+    return;
+  }
+
+  list.innerHTML = data.map(product => {
+
+    const image = product.image_url
+      ? product.image_url
+      : "";
+
+    return `
+      <article class="product">
+        <img src="${escapeHTML(image)}"
+             alt="${escapeHTML(product.name)}"
+             onerror="this.style.display='none'">
+
+        <div class="product-info">
+          <h3>${escapeHTML(product.name)}</h3>
+          <p class="price">₦${Number(product.price).toLocaleString("en-NG")}</p>
+          <p>Category: ${escapeHTML(product.category)}</p>
+          <p>Stock: ${product.stock}</p>
+
+<p style="color:${product.stock > 0 ? '#4caf50' : '#ff5252'}; font-weight:600;">
+  ${product.stock > 0 ? 'In Stock' : 'Out of Stock'}
+</p>
+          <button
+  type="button"
+  class="edit-button"
+  data-edit-id="${product.id}"
+  style="background:#d4af37; color:#111; margin-top:10px; width:100%;">
+  Edit Product
+</button>
+
+<button
+  type="button"
+  class="delete-button"
+  data-delete-id="${product.id}"
+  style="background:#8b2222; color:white; margin-top:8px; width:100%;">
+  Delete Product
+</button>
+        </div>
+      </article>
+    `;
+
+  }).join("");
+
+// Open product for editing
+list.querySelectorAll(".edit-button").forEach(button => {
+
+  button.addEventListener("click", function() {
+
+    const product = data.find(
+      item => String(item.id) === button.dataset.editId
+    );
+
+    if (!product) return;
+    window.editingProductId = product.id;
+
+    document.getElementById("editName").value = product.name;
+    document.getElementById("editDescription").value =
+      product.description || "";
+    document.getElementById("editPrice").value = product.price;
+    document.getElementById("editCategory").value = product.category;
+    document.getElementById("editStock").value = product.stock;
+
+    document.getElementById("editStatus").textContent = "";
+
+    const editSection = document.getElementById("editSection");
+    editSection.style.display = "block";
+
+    editSection.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+
+  });
+
+});
+
+// Delete product
+list.querySelectorAll(".delete-button").forEach(button => {
+
+  button.addEventListener("click", async function() {
+
+    const productId = button.dataset.deleteId;
+
+    const confirmed = confirm(
+      "Are you sure you want to delete this product? This action cannot be undone."
+    );
+
+    if (!confirmed) return;
+
+    button.disabled = true;
+    button.textContent = "Deleting...";
+
+    try {
+
+      // Get the product details first
+      const { data: product, error: fetchError } = await client
+        .from("products")
+        .select("image_url")
+        .eq("id", productId)
+        .single();
+
+      if (fetchError) throw fetchError;
+
+      // Delete the product from the database
+      const { error: deleteError } = await client
+        .from("products")
+        .delete()
+        .eq("id", productId);
+
+      if (deleteError) throw deleteError;
+
+      // Remove its image from Storage
+      if (product.image_url) {
+
+        const marker = "/object/public/Product-images/";
+        const imagePath = product.image_url.split(marker)[1];
+
+        if (imagePath) {
+          const { error: imageError } = await client.storage
+            .from("Product-images")
+            .remove([decodeURIComponent(imagePath)]);
+
+          if (imageError) {
+            alert("Product deleted, but its image could not be removed.");
+          }
+        }
+      }
+
+      alert("Product deleted successfully!");
+
+      await loadProducts();
+
+    } catch (error) {
+
+      alert("Error deleting product: " + error.message);
+
+      button.disabled = false;
+      button.textContent = "Delete Product";
+
+    }
+
+  });
+
+});
+}
+
+
+// ==========================
+// ORDER MANAGEMENT
+// ==========================
+
+async function loadOrders() {
+
+  const list = document.getElementById("orderList");
+
+  list.textContent = "Loading customer orders...";
+
+  try {
+
+    const { data: orders, error } = await client
+      .from("orders")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    if (!orders || orders.length === 0) {
+      list.innerHTML = "<p class='subtitle'>No customer orders yet.</p>";
+      return;
+    }
+
+    list.innerHTML = "";
+
+    for (const order of orders) {
+
+      const { data: items, error: itemsError } = await client
+        .from("order_items")
+        .select("*")
+        .eq("order_id", order.id);
+
+      if (itemsError) throw itemsError;
+
+      const itemsHTML = (items || []).map(item => `
+        <p>
+          ${escapeHTML(item.product_name)}
+          × ${item.quantity}
+          — ₦${Number(item.subtotal).toLocaleString("en-NG")}
+        </p>
+      `).join("");
+
+      const card = document.createElement("article");
+
+      card.className = "order-card";
+
+      card.innerHTML = `
+        <h3>Order: ${escapeHTML(order.order_number)}</h3>
+
+        <p>
+          <strong>Customer:</strong>
+          ${escapeHTML(order.customer_name)}
+        </p>
+
+        <p>
+          <strong>Phone:</strong>
+          ${escapeHTML(order.phone)}
+        </p>
+
+        <p>
+          <strong>Delivery Address:</strong>
+          ${escapeHTML(order.delivery_address)}
+        </p>
+
+        <p>
+          <strong>Date:</strong>
+          ${new Date(order.created_at).toLocaleString("en-NG")}
+        </p>
+
+        <div class="order-items">
+          <strong>Ordered Items</strong>
+          ${itemsHTML}
+        </div>
+
+        <p class="order-total">
+          Total: ₦${Number(order.total).toLocaleString("en-NG")}
+        </p>
+
+        <label>Order Status</label>
+
+        <select class="order-status"
+          data-order-id="${order.id}">
+
+          ${[
+            "Pending",
+            "Confirmed",
+            "Processing",
+            "Shipped",
+            "Delivered",
+            "Cancelled"
+          ].map(status => `
+            <option value="${status}"
+              ${order.status === status ? "selected" : ""}>
+              ${status}
+            </option>
+          `).join("")}
+
+        </select>
+
+       <p class="order-update-message"></p>
+
+<button
+  type="button"
+  class="delete-order"
+  data-order-id="${order.id}"
+  style="background:#8b2525;color:white;margin-top:10px;"
+>
+  Delete Order
+</button>`;
+
+      list.appendChild(card);
+    }
+
+    // Update order status
+    list.querySelectorAll(".order-status").forEach(select => {
+
+      select.addEventListener("change", async function() {
+
+        const orderId = this.dataset.orderId;
+        const newStatus = this.value;
+        const message = this.parentElement.querySelector(
+          ".order-update-message"
+        );
+
+        this.disabled = true;
+        message.textContent = "Updating status...";
+
+        try {
+
+          const { error } = await client
+            .from("orders")
+            .update({ status: newStatus })
+            .eq("id", orderId);
+
+          if (error) throw error;
+
+          message.textContent = "Status updated successfully!";
+
+        } catch (error) {
+
+          message.textContent = "Error: " + error.message;
+          await loadOrders();
+
+        } finally {
+
+          this.disabled = false;
+
+        }
+
+      });
+
+    });
+
+  } catch (error) {
+
+    console.error("Order loading error:", error);
+
+    list.textContent =
+      "Unable to load orders: " + error.message;
+
+  }
+  
+list.querySelectorAll(".delete-order").forEach(button => {
+  button.addEventListener("click", async function () {
+    const orderId = this.dataset.orderId;
+
+    if (!confirm("Are you sure you want to delete this order? This action cannot be undone.")) {
+      return;
+    }
+
+    this.disabled = true;
+    this.textContent = "Deleting...";
+
+    try {
+      const { error } = await client
+        .from("orders")
+        .delete()
+        .eq("id", orderId);
+
+      if (error) throw error;
+
+      await loadOrders();
+      await loadStatistics();
+
+    } catch (error) {
+      console.error("Order deletion error:", error);
+      alert("Unable to delete order: " + error.message);
+
+      this.disabled = false;
+      this.textContent = "Delete Order";
+    }
+  });
+});
+
+
+}
+
+// Refresh orders button
+document.getElementById("refreshOrders")
+.addEventListener("click", loadOrders);
+
+
+async function loadStatistics() {
+  try {
+    // Get all order statuses and totals
+    const { data: orders, error: ordersError } = await client
+      .from("orders")
+      .select("status, total");
+
+    if (ordersError) throw ordersError;
+
+    // Count products
+    const { count: productCount, error: productsError } = await client
+      .from("products")
+      .select("*", { count: "exact", head: true });
+
+    if (productsError) throw productsError;
+
+    const totalOrders = orders.length;
+
+    const pendingOrders = orders.filter(
+      order => order.status === "Pending"
+    ).length;
+
+    const deliveredOrders = orders.filter(
+      order => order.status === "Delivered"
+    ).length;
+
+    const revenue = orders
+      .filter(order => order.status === "Delivered")
+      .reduce((sum, order) => sum + Number(order.total), 0);
+
+    document.getElementById("stat-total-orders").textContent =
+      totalOrders;
+
+    document.getElementById("stat-pending-orders").textContent =
+      pendingOrders;
+
+    document.getElementById("stat-delivered-orders").textContent =
+      deliveredOrders;
+
+    document.getElementById("stat-total-products").textContent =
+      productCount || 0;
+
+    document.getElementById("stat-revenue").textContent =
+      "₦" + revenue.toLocaleString("en-NG");
+
+  } catch (error) {
+    console.error("Statistics loading error:", error);
+  }
+}
+
+document.getElementById("refreshStats")
+  .addEventListener("click", loadStatistics);
+
+
+// REAL-TIME NEW ORDER NOTIFICATIONS
+let orderNotificationChannel = null;
+let newOrderNotifications = [];
+
+function renderOrderNotifications() {
+  const container = document.getElementById("orderNotifications");
+  const count = document.getElementById("new-order-count");
+
+  count.textContent = newOrderNotifications.length;
+
+  if (newOrderNotifications.length === 0) {
+    container.innerHTML =
+      "<p class='subtitle'>No new order notifications.</p>";
+    return;
+  }
+
+  container.innerHTML = "";
+
+  newOrderNotifications.forEach(order => {
+    const card = document.createElement("article");
+    card.className = "notification-card";
+
+    card.innerHTML = `
+      <h3>New Order Received!</h3>
+      <p><strong>Order Number:</strong>
+        ${escapeHTML(order.order_number)}</p>
+      <p><strong>Customer:</strong>
+        ${escapeHTML(order.customer_name)}</p>
+      <p><strong>Total:</strong>
+        ₦${Number(order.total).toLocaleString("en-NG")}</p>
+      <p><strong>Time:</strong>
+        ${new Date(order.created_at).toLocaleString("en-NG")}</p>
+
+      <button type="button" class="view-new-order">
+        View Orders
+      </button>
+    `;
+
+    card.querySelector(".view-new-order")
+      .addEventListener("click", async function () {
+        await loadOrders();
+        document.getElementById("ordersSection")
+          .scrollIntoView({ behavior: "smooth" });
+
+        newOrderNotifications =
+          newOrderNotifications.filter(item => item.id !== order.id);
+
+        renderOrderNotifications();
+      });
+
+    container.appendChild(card);
+  });
+}
+
+async function subscribeToNewOrders() {
+  if (orderNotificationChannel) return;
+  
+const { data: sessionData } = await client.auth.getSession();
+
+console.log("ADMIN SESSION:", 
+sessionData.session);
+console.log("ADMIN USER ID:", sessionData.session?.user?.id);
+
+  orderNotificationChannel = client
+    .channel("admin-new-orders")
+    .on(
+      "postgres_changes",
+      {
+        event: "*",
+        schema: "public",
+        table: "orders"
+      },
+      payload => {
+      console.log("REALTIME ORDER EVENT RECEIVED:", payload);
+      
+        const newOrder = payload.new;
+
+        newOrderNotifications.unshift(newOrder);
+
+        renderOrderNotifications();
+
+        loadOrders();
+        loadStatistics();
+
+        alert(
+          "New customer order received: " +
+          newOrder.order_number
+        );
+      }
+    )
+    .subscribe((status, err) => {
+    console.log("Order notification status:", status);
+
+    if (err) {
+        console.error("Realtime subscription error:", err);
+    }
+});
+}
+
+
+async function loadMessages() {
+  const list = document.getElementById("messageList");
+  list.textContent = "Loading customer messages...";
+
+  try {
+    const { data: messages, error } = await client
+      .from("contact_messages")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    if (!messages || messages.length === 0) {
+      list.innerHTML = "<p class='subtitle'>No customer messages yet.</p>";
+      return;
+    }
+
+    list.innerHTML = "";
+
+    for (const msg of messages) {
+      const card = document.createElement("article");
+      card.className = "message-card";
+
+      card.innerHTML = `
+        <h3>${escapeHTML(msg.name)}</h3>
+
+        <p><strong>Email:</strong>
+          ${escapeHTML(msg.email)}</p>
+
+        <p><strong>Date:</strong>
+          ${new Date(msg.created_at).toLocaleString("en-NG")}</p>
+
+        <div class="message-content">
+          ${escapeHTML(msg.message)}
+        </div>
+
+        <label>Message Status</label>
+
+        <select class="message-status"
+          data-message-id="${msg.id}">
+          ${["New", "Read", "Replied"].map(status => `
+            <option value="${status}"
+              ${msg.status === status ? "selected" : ""}>
+              ${status}
+            </option>
+          `).join("")}
+        </select>
+
+        <p class="message-update-message"></p>
+
+        <button type="button"
+          class="delete-message"
+          data-message-id="${msg.id}"
+          style="background:#8b2525;color:white;margin-top:10px;">
+          Delete Message
+        </button>
+      `;
+
+      list.appendChild(card);
+    }
+
+    list.querySelectorAll(".message-status").forEach(select => {
+      select.addEventListener("change", async function () {
+        const messageId = this.dataset.messageId;
+        const newStatus = this.value;
+        const message = this.parentElement.querySelector(
+          ".message-update-message"
+        );
+
+        this.disabled = true;
+        message.textContent = "Updating...";
+
+        try {
+          const { error } = await client
+            .from("contact_messages")
+            .update({ status: newStatus })
+            .eq("id", messageId);
+
+          if (error) throw error;
+
+          message.textContent = "Status updated successfully!";
+        } catch (error) {
+          message.textContent = "Error: " + error.message;
+          await loadMessages();
+        } finally {
+          this.disabled = false;
+        }
+      });
+    });
+
+    list.querySelectorAll(".delete-message").forEach(button => {
+      button.addEventListener("click", async function () {
+        const messageId = this.dataset.messageId;
+
+        if (!confirm("Are you sure you want to delete this message?")) {
+          return;
+        }
+
+        this.disabled = true;
+        this.textContent = "Deleting...";
+
+        try {
+          const { error } = await client
+            .from("contact_messages")
+            .delete()
+            .eq("id", messageId);
+
+          if (error) throw error;
+
+          await loadMessages();
+        } catch (error) {
+          alert("Unable to delete message: " + error.message);
+          this.disabled = false;
+          this.textContent = "Delete Message";
+        }
+      });
+    });
+
+  } catch (error) {
+    console.error("Message loading error:", error);
+    list.textContent = "Unable to load messages: " + error.message;
+  }
+}
+
+document.getElementById("refreshMessages")
+  .addEventListener("click", loadMessages);
+
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+// Cancel product editing
+document.getElementById("cancelEdit")
+.addEventListener("click", function() {
+
+  window.editingProductId = null;
+
+  document.getElementById("editForm").reset();
+  document.getElementById("editSection").style.display = "none";
+  document.getElementById("editStatus").textContent = "";
+
+});
+
+// Update existing product
+document.getElementById("editForm")
+.addEventListener("submit", async function(e) {
+
+  e.preventDefault();
+
+  const button = document.getElementById("updateButton");
+  const status = document.getElementById("editStatus");
+
+  const productId = window.editingProductId;
+
+  if (!productId) {
+    status.textContent = "No product selected.";
+    return;
+  }
+
+  button.disabled = true;
+  status.textContent = "Updating product...";
+
+  try {
+
+    const updatedProduct = {
+      name: document.getElementById("editName").value.trim(),
+      description: document.getElementById("editDescription").value.trim(),
+      price: Number(document.getElementById("editPrice").value),
+      category: document.getElementById("editCategory").value,
+      stock: Number(document.getElementById("editStock").value)
+    };
+
+    if (
+      !updatedProduct.name ||
+      updatedProduct.price <= 0 ||
+      !Number.isInteger(updatedProduct.stock) ||
+      updatedProduct.stock < 0
+    ) {
+      throw new Error("Please check the product details.");
+    }
+
+    const { error } = await client
+      .from("products")
+      .update(updatedProduct)
+      .eq("id", productId);
+
+    if (error) throw error;
+
+    status.textContent = "Product updated successfully!";
+
+    window.editingProductId = null;
+
+    document.getElementById("editSection").style.display = "none";
+    document.getElementById("editForm").reset();
+
+    await loadProducts();
+
+  } catch (error) {
+
+    status.textContent = "Error: " + error.message;
+
+  } finally {
+
+    button.disabled = false;
+
+  }
+
+});
+
+// Restore existing session
+(async function() {
+
+  const { data: { session } } = await client.auth.getSession();
+
+  if (session) {
+    try {
+      await verifyAdmin(session.user);
+    } catch (error) {
+      document.getElementById("loginMessage").textContent =
+        error.message;
+    }
+  }
+
+})();
+</script>
+
+</body>
+</html>

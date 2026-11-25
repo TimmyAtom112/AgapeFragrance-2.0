@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgapeFragrance - Connection Test</title>
+</head>
+<body>
+
+    <h2>AgapeFragrance Backend Test</h2>
+    <p id="status">Connecting to Supabase...</p>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+
+    <script>
+        async function testConnection() {
+            const status = document.getElementById("status");
+
+            try {
+                const { data, error } = await window.agapeSupabase
+                    .from("products")
+                    .select("id, name")
+                    .limit(5);
+
+                if (error) throw error;
+
+                status.textContent =
+                    "Connection successful! Products found: " + data.length;
+
+            } catch (error) {
+                status.textContent =
+                    "Connection failed: " + error.message;
+
+                console.error(error);
+            }
+        }
+
+        testConnection();
+    </script>
+
+</body>
+</html>

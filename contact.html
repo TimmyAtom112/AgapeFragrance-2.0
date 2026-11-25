@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact | AgapeFragrance</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="logo">AgapeFragrance</div>
+  
+  <!-- Nav Links -->
+  <nav class="nav-links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+  
+  <!-- Hamburger -->
+  <div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</header>
+
+<section class="contact-page">
+  <h1>Contact Us</h1>
+
+  <form id="contact-form">
+  <input
+    type="text"
+    id="contact-name"
+    placeholder="Your Name"
+    required
+  >
+
+  <input
+    type="email"
+    id="contact-email"
+    placeholder="Your Email"
+    required
+  >
+
+  <textarea
+    id="contact-message"
+    placeholder="Your Message"
+    required
+  ></textarea>
+
+  <button type="submit" id="contact-submit">
+    Send Message
+  </button>
+
+  <p id="contact-status" role="status" aria-live="polite"></p>
+</form>
+
+  <div class="contact-info">
+    <p>Or WhatsApp us directly: <a href="https://wa.me/2349025612751" target="_blank">+234 902 561 2751</a></p>
+  </div>
+</section>
+
+
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="script.js"></script>
+<script>
+(function () {
+  const contactClient = window.agapeSupabase;
+  const form = document.getElementById("contact-form");
+  const submitButton = document.getElementById("contact-submit");
+  const statusMessage = document.getElementById("contact-status");
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById("contact-name").value.trim();
+    const email = document.getElementById("contact-email").value.trim();
+    const message = document.getElementById("contact-message").value.trim();
+
+    submitButton.disabled = true;
+    submitButton.textContent = "Sending...";
+    statusMessage.textContent = "Sending your message...";
+
+    try {
+      const { error } = await contactClient
+        .from("contact_messages")
+        .insert([{ name, email, message }]);
+
+      if (error) throw error;
+
+      statusMessage.textContent =
+        "Your message has been sent successfully. We'll get back to you shortly.";
+
+      form.reset();
+
+    } catch (error) {
+      console.error("Contact form error:", error);
+      statusMessage.textContent =
+        "Sorry, we couldn't send your message. Please try again.";
+
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = "Send Message";
+    }
+  });
+})();
+</script>
+</body>
+</html>
+</body>
+</html>

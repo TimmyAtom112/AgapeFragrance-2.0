@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgapeFragrance | Luxury Perfumes</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="logo">AgapeFragrance</div>
+
+  <!-- Nav Links -->
+  <nav class="nav-links" id="navLinks">
+    <a href="#">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
+  <!-- Hamburger -->
+  <div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>Luxury in Every Drop</h1>
+    <p>Welcome to AgapeFragrance, Where every fragrance tells a story of class and confidence.</p>
+    <a href="shop.html"><button>Shop Now</button></a>
+  </div>
+</section>
+  <!-- NOTICE -->
+<section class="notice">
+  <p>
+    Face mask, Mouth wash, Roll on, Sheet mask, among many others are now available on the site.
+  </p>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products">
+  <h2>Featured Fragrances</h2>
+
+  <div class="product-grid" id="home-products">
+  <p>Loading featured fragrances...</p>
+</div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
